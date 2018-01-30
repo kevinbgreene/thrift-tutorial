@@ -1,0 +1,29 @@
+{
+  "extends": "tslint:recommended",
+  "rules": {
+    "object-literal-sort-keys": false,
+    "variable-name": false,
+    "no-console": false,
+    "no-var-requires": false,
+    "semicolon": [
+      true,
+      "never"
+    ],
+    "array-type": [
+      true,
+      "generic"
+    ],
+    "quotemark": [
+      true,
+      "single",
+      "avoid-escape"
+    ],
+    "trailing-comma": [
+      true,
+      {
+        "multiline": "always",
+        "singleline": "never"
+      }
+    ]
+  }
+}
