@@ -7,7 +7,7 @@ import {
 } from '@creditkarma/thrift-client'
 
 import {
-    thriftExpress,
+    ThriftServerExpress,
 } from '@creditkarma/thrift-server-express'
 
 import * as bodyParser from 'body-parser'
@@ -62,7 +62,10 @@ import {
     app.use(
         serverConfig.path,
         bodyParser.raw(),
-        thriftExpress(ContentService.Processor, serviceHandler),
+        ThriftServerExpress({
+            serviceName: 'content-service',
+            handler: new ContentService.Processor(serviceHandler),
+        }),
     )
 
     app.listen(serverConfig.port, () => {

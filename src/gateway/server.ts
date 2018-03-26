@@ -3,7 +3,7 @@ import {
 } from '@creditkarma/dynamic-config'
 
 import {
-  createClient,
+  createHttpClient,
 } from '@creditkarma/thrift-client'
 
 import * as express from 'express'
@@ -20,7 +20,7 @@ import {
 
     // SET UP CLIENT
 
-    const contentClient: ContentService.Client = createClient(ContentService.Client, clientConfig)
+    const contentClient: ContentService.Client = createHttpClient(ContentService.Client, clientConfig)
 
     // START API SERVER
 

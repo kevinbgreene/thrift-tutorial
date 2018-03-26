@@ -5,7 +5,7 @@ import {
 } from '@creditkarma/dynamic-config'
 
 import {
-  ThriftPlugin,
+  ThriftServerHapi,
 } from '@creditkarma/thrift-server-hapi'
 
 import {
@@ -24,19 +24,6 @@ import {
     const serverConfig = await config().get('identity.server')
 
     server.connection({ port: serverConfig.port })
-
-    /**
-     * Register the thrift plugin.
-     *
-     * This will allow us to define Hapi routes for our thrift service(s).
-     * They behave like any other HTTP route handler, so you can mix and match
-     * thrift / REST endpoints on the same server instance.
-     */
-    server.register(ThriftPlugin, (err: any) => {
-        if (err) {
-            throw err
-        }
-    })
 
     /**
      * Create our service processor
@@ -60,24 +47,22 @@ import {
         })
 
     /**
-     * Route to our thrift service.
+     * Register the thrift plugin.
      *
-     * Payload parsing is disabled - the thrift plugin parses the raw request
-     * using whichever protocol is configured (binary, compact, json...)
+     * This will add a Thrift route handler to the '/thrift' path.
+     * This behaves like any other HTTP route handler, so you can mix and match
+     * thrift / REST endpoints on the same server instance.
      */
-    server.route({
-        method: 'POST',
-        path: serverConfig.path,
-        handler: {
-            thrift: {
-                service: serviceProcessor,
-            },
+    server.register(ThriftServerHapi({
+        path: '/thrift',
+        thriftOptions: {
+            serviceName: '',
+            handler: serviceProcessor,
         },
-        config: {
-            payload: {
-                parse: false,
-            },
-        },
+    }), (err: any) => {
+        if (err) {
+            throw err
+        }
     })
 
     /**
