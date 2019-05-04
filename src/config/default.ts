@@ -26,7 +26,7 @@ export const content = {
     client: {
         hostName: 'localhost',
         port: 8085,
-        path: '/',
+        path: '/thrift',
     },
 }
 
